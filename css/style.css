@@ -1,0 +1,91 @@
+body {
+	background-color: #424242;
+    margin: 0px;
+    color: #E6E6E6;
+    font-size: 100%;
+	font-family: Helvetica, sans-serif;
+}
+a {
+	color: #E6E6E6;
+}
+.hidden {
+	display: none!important;
+}
+.navigation {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #303030;
+    font-size: 150%;
+    border-style: solid;
+    border-width: 0px;
+    border-bottom-width: 1px;
+    border-color: #999999;
+}
+.navigation li a {
+	padding: 10px;
+	display: block;
+	text-decoration: unset;
+}
+.navigation li:hover {
+	background-color: #000000;
+}
+.navigation li.active {
+	background-color: #500000;
+}
+.content {
+    position: absolute;
+    top: 48px;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+	align-items: center;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 36px;
+	gap: 12px;
+}
+.container {
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+	align-items: center;
+	box-shadow: inset 0px 0px 0px 1px #999999;
+    border-radius: 15px;
+    background-color: #303030;
+	padding: 12px;
+	gap: 12px;
+	min-width: 360px;
+	font-size: 150%;
+}
+.container button {
+	font-size: 100%;
+	min-width: 30%;
+}
+.container input {
+	font-size: 100%;
+}
+.upload input[type="file"] {
+	display: none;
+}
+.upload label {
+    border: 1px solid #999999;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 10px;
+}
+.title {
+    font-size: 150%;
+    text-align: center;
+    font-weight: bold;
+}
