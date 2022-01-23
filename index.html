@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Whoop Transfer</title>
+		<link rel="stylesheet" href="./css/style.css">
+		<!--<script type="text/javascript" src="js/jszip.min.js"></script>
+		<script type="text/javascript" src="js/FileSaver.min.js"></script>-->
+		<script type="module" src="./js/main.js"></script>
+	</head>
+	<body>
+		<ul class="navigation">
+			<li class="active"><a href="/">Home</a></li>
+			<li><a href="history.html">History</a></li>
+			<li><a href="https://github.com/KenanTurner/SimpleFileTransfer" target="_blank">Github</a></li>
+		</ul>
+		<div class="content">
+			<div class='container upload'>
+				<div class="title">Upload File</div>
+				<div class="container hidden">
+					<div class="subtitle">Options</div>
+					<label for="compress" >Compress</label>
+					<input id="compress" type="checkbox"></input>
+					<label for="encrypt" >Encrypt</label>
+					<input id="encrypt" type="checkbox"></input>
+				</div>
+				<label for="upload-file">
+					Select File
+				</label>
+				<input type="file" id="upload-file"></input>
+				<label for="upload-name" class="hidden">Filename:</label>
+				<input type="text" id="upload-name" disabled></input>
+				<button id="upload-btn" disabled>Upload</button>
+			</div>
+			<div class='container hidden' id="progress">
+				<div class="title">Uploading...</div>
+			</div>
+			<div class='container hidden' id="complete">
+				<div class="title">Upload Complete!</div>
+				<a id="link" target="_blank">Click to preview file</a>
+				<button id="share">Click to share</button>
+			</div>
+			<div class='container hidden' id="failed">
+				<div class="title">Upload Failed!</div>
+			</div>
+		</div>
+	</body>
+</html>
