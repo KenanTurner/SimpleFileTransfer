@@ -1,6 +1,6 @@
 # SimpleFileTransfer
 
-A simple file sharing website powered by js + php + ftp
+A simple file sharing website powered by js + php + ftp  
 Created in one week to share high quality memes :)
 
 ## Installation
