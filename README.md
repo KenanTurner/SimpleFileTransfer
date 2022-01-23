@@ -6,7 +6,7 @@ Created in one week to share high quality memes :)
 ## Installation
 
 Download the lastest release from the [releases tab](/https://github.com/KenanTurner/SimpleFileTransfer/releases).  
-Place the extracted files in the project folder.
+Place the extracted files in the project folder.  
 Create server.ini at /php/server.ini with the following content:
 ```ini
 ; Replace with a valid ftp server
