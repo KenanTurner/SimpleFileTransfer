@@ -16,10 +16,33 @@ ob_end_clean();
 
 if(!$result) error("Metadata could not be found!");
 
+/*
+//Future partial content support
+$offset = 0;
+$length = $meta["size"];
+$partialContent = false;
+if(isset($_SERVER['HTTP_RANGE'])){
+    // if the HTTP_RANGE header is set we're dealing with partial content
+    $partialContent = true;
+
+    // find the requested range
+    // this might be too simplistic, apparently the client can request
+    // multiple ranges, which can become pretty complex, so ignore it for now
+    preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
+
+    $offset = intval($matches[1]);
+    $length = intval($matches[2]) - $offset;
+}*/
+
 switch($method){
 	case "status":
 		break;
 	case "download":
+		header('Accept-Ranges: none');
+		header('Content-Description: File Transfer');
+		header('Expires: 0');
+		header('Cache-Control: no-store, must-revalidate');
+		header('Pragma: no-cache');
 		header('Content-Type: '.$meta["type"]);
 		header("Content-Transfer-Encoding: Binary"); 
 		header("Content-disposition: attachment; filename=\"" . $meta["name"] . "\""); 
@@ -27,14 +50,23 @@ switch($method){
 		$result = $ftp->ftp_get("php://output", './'.$id, FTP_BINARY);
 		break;
 	case "metadata":
+		header('Accept-Ranges: none');
+		header('Content-Description: File Transfer');
+		header('Expires: 0');
+		header('Cache-Control: no-store, must-revalidate');
+		header('Pragma: no-cache');
 		header('Content-Type: application/json');
 		header("Content-Transfer-Encoding: Binary");
 		header("Content-disposition: attachment; filename=\"" . $id . ".json\""); 
 		$result = $ftp->ftp_get("php://output", './'.$id.'.json', FTP_BINARY);
 		break;
 	case "preview":
+		header('Accept-Ranges: none');
+		header('Content-Description: File Transfer');
+		header('Expires: 0');
+		header('Cache-Control: no-store, must-revalidate');
+		header('Pragma: no-cache');
 		header('Content-Type: '.$meta["type"]);
-		header("Content-Transfer-Encoding: Binary"); 
 		header('Content-Length: ' . $meta["size"]);
 		$result = $ftp->ftp_get("php://output", './'.$id, FTP_BINARY);
 		break;
