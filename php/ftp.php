@@ -1,7 +1,7 @@
 <?php
-function error($message){
+function error($message,$code=5000){
 	if(isset($ftp)) $ftp->ftp_close();
-	http_response_code(500);
+	http_response_code($code);
 	exit($message);
 }
 class ftp{
