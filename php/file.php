@@ -25,15 +25,13 @@ $result = $ftp->ftp_get("php://output", './'.$id.'.json', FTP_BINARY);
 $meta = json_decode(ob_get_contents(),true);
 ob_end_clean();
 
-while(ob_get_level()){
-	ob_end_clean();
-}
-
 //set header info
 header('Content-Description: File Transfer');
-header('Expires: 0');
+/*header('Expires: 0');
 header('Cache-Control: no-store, must-revalidate');
-header('Pragma: no-cache');
+header('Pragma: no-cache');*/
+header("Cache-Control: public");
+header("Content-Transfer-Encoding: binary");
 
 switch($method){
 	case "metadata":
@@ -76,17 +74,14 @@ if(isset($_SERVER['HTTP_RANGE'])){
 }
 
 //write directly to output until connection is closed
-ob_start();
+ob_start(null,40960);
 $ret = $ftp->ftp_nb_get("php://output", "./".$id, FTP_BINARY, $start);
 while($ret == FTP_MOREDATA && (connection_status() == 0)){
 	// Continue downloading...
 	set_time_limit(0); // Reset time limit for big files
 	$ret = $ftp->ftp_nb_continue();
-	flush();
-	ob_flush();
-	//sleep(1);
 }
-ob_end_clean();
+ob_end_flush();
 
 $ftp->ftp_close();
 
