@@ -25,6 +25,10 @@ $result = $ftp->ftp_get("php://output", './'.$id.'.json', FTP_BINARY);
 $meta = json_decode(ob_get_contents(),true);
 ob_end_clean();
 
+while(ob_get_level()){
+	ob_end_clean();
+}
+
 //set header info
 header('Content-Description: File Transfer');
 header('Expires: 0');
@@ -74,10 +78,12 @@ if(isset($_SERVER['HTTP_RANGE'])){
 //write directly to output until connection is closed
 $ret = $ftp->ftp_nb_get("php://output", "./".$id, FTP_BINARY, $start);
 while($ret == FTP_MOREDATA && (!connection_aborted())){
-   // Continue downloading...
-   set_time_limit(0); // Reset time limit for big files
-   $ret = $ftp->ftp_nb_continue();
-   flush(); // Free up memory. Otherwise large files will trigger PHP's memory limit.
+	// Continue downloading...
+	set_time_limit(0); // Reset time limit for big files
+	$ret = $ftp->ftp_nb_continue();
+	flush();
+	ob_flush();
+	sleep(1);
 }
 
 $ftp->ftp_close();
