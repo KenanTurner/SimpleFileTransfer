@@ -27,11 +27,10 @@ ob_end_clean();
 
 //set header info
 header('Content-Description: File Transfer');
-/*header('Expires: 0');
+header('Expires: 0');
 header('Cache-Control: no-store, must-revalidate');
-header('Pragma: no-cache');*/
-header("Cache-Control: public");
-header("Content-Transfer-Encoding: binary");
+header('Pragma: no-cache');
+
 
 switch($method){
 	case "metadata":
@@ -44,6 +43,7 @@ switch($method){
 		header("Content-disposition: attachment; filename=\"" . $meta["name"] . "\""); 
 	case "preview":
 		header('Accept-Ranges: bytes');
+		header("Content-Transfer-Encoding: binary");
 		header('Content-Type: '.$meta["type"]);
 		break;
 	default:
@@ -57,11 +57,7 @@ if(isset($_SERVER['HTTP_RANGE'])){
 	list($__) = explode(",", $__, 2);
 	list($start, $end) = explode("-", $__);
 	$start = intval($start);
-	if(!$end){
-		$end = $meta["size"] - 1;
-	}else{
-		$end = intval($end);
-	}
+	$end = $meta["size"] - 1; //always send the rest of the file
 
 	$length = $end - $start + 1;
 	header("HTTP/1.1 206 Partial Content");
@@ -73,17 +69,13 @@ if(isset($_SERVER['HTTP_RANGE'])){
 	header('Content-Length: ' . $meta["size"]);
 }
 
-$ret = $ftp->ftp_get("php://output", "./".$id, FTP_BINARY, $start);
-
 //write directly to output until connection is closed
-/*ob_start(null,4096);
 $ret = $ftp->ftp_nb_get("php://output", "./".$id, FTP_BINARY, $start);
 while($ret == FTP_MOREDATA && (!connection_aborted())){
 	// Continue downloading...
 	set_time_limit(0); // Reset time limit for big files
 	$ret = $ftp->ftp_nb_continue();
 }
-ob_end_flush();*/
 
 $ftp->ftp_close();
 
