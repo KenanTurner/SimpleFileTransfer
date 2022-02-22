@@ -77,13 +77,13 @@ if(isset($_SERVER['HTTP_RANGE'])){
 
 //write directly to output until connection is closed
 $ret = $ftp->ftp_nb_get("php://output", "./".$id, FTP_BINARY, $start);
-while($ret == FTP_MOREDATA && (!connection_aborted())){
+while($ret == FTP_MOREDATA && (connection_status() == 0)){
 	// Continue downloading...
 	set_time_limit(0); // Reset time limit for big files
 	$ret = $ftp->ftp_nb_continue();
 	flush();
 	ob_flush();
-	sleep(1);
+	//sleep(1);
 }
 
 $ftp->ftp_close();
