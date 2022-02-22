@@ -73,15 +73,17 @@ if(isset($_SERVER['HTTP_RANGE'])){
 	header('Content-Length: ' . $meta["size"]);
 }
 
+$ret = $ftp->ftp_get("php://output", "./".$id, FTP_BINARY, $start);
+
 //write directly to output until connection is closed
-ob_start(null,4096);
+/*ob_start(null,4096);
 $ret = $ftp->ftp_nb_get("php://output", "./".$id, FTP_BINARY, $start);
 while($ret == FTP_MOREDATA && (!connection_aborted())){
 	// Continue downloading...
 	set_time_limit(0); // Reset time limit for big files
 	$ret = $ftp->ftp_nb_continue();
 }
-ob_end_flush();
+ob_end_flush();*/
 
 $ftp->ftp_close();
 
