@@ -75,7 +75,9 @@ if(isset($_SERVER['HTTP_RANGE'])){
 $ret = $ftp->ftp_nb_get("php://output", "./".$id, FTP_BINARY, $start);
 while($ret == FTP_MOREDATA && (!connection_aborted())){
    // Continue downloading...
+   set_time_limit(0); // Reset time limit for big files
    $ret = $ftp->ftp_nb_continue();
+   flush(); // Free up memory. Otherwise large files will trigger PHP's memory limit.
 }
 
 $ftp->ftp_close();
