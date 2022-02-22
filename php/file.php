@@ -76,6 +76,7 @@ if(isset($_SERVER['HTTP_RANGE'])){
 }
 
 //write directly to output until connection is closed
+ob_start();
 $ret = $ftp->ftp_nb_get("php://output", "./".$id, FTP_BINARY, $start);
 while($ret == FTP_MOREDATA && (connection_status() == 0)){
 	// Continue downloading...
@@ -85,6 +86,7 @@ while($ret == FTP_MOREDATA && (connection_status() == 0)){
 	ob_flush();
 	//sleep(1);
 }
+ob_end_clean();
 
 $ftp->ftp_close();
 
