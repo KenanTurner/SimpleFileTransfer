@@ -40,11 +40,16 @@ switch($method){
 		exit(json_encode($meta,JSON_PRETTY_PRINT));
 		break;
 	case "download":
+		header('Accept-Ranges: bytes');
+		header("Content-Transfer-Encoding: binary");
+		header('Content-Type: '.$meta["type"]);
 		header("Content-disposition: attachment; filename=\"" . $meta["name"] . "\""); 
+		break;
 	case "preview":
 		header('Accept-Ranges: bytes');
 		header("Content-Transfer-Encoding: binary");
 		header('Content-Type: '.$meta["type"]);
+		header("Content-disposition: inline; filename=\"" . $meta["name"] . "\""); 
 		break;
 	default:
 		error("Invalid method!",418);
