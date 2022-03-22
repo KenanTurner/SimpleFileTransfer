@@ -4,11 +4,38 @@ function bufferToStr(buffer){
 function strToBuffer(str){
 	return Uint8Array.from(atob(str), function(c){return c.charCodeAt(0)});
 }
-
-export async function digestFile(file) {
-    let buffer = await file.arrayBuffer();
+function concatBuffers(...buffers){
+    let total_length = buffers.reduce(function(size,buffer){
+        return size += buffer.byteLength;
+    },0);
+    let result = new Uint8Array(total_length);
+    buffers.reduce(function(offset,buffer){
+        result.set(new Uint8Array(buffer), offset);
+        return offset += buffer.byteLength;
+    },0);
+    return result;
+}
+function strXor(...strings){
+    let result = strings[0];
+    for(let str of strings.slice(1)){
+        result = Array.from(str,function(c,i){
+            return String.fromCharCode(c.charCodeAt() ^ result.charCodeAt(i % result.length));
+        }).join('');
+    }
+    return result;
+}
+export async function digestBuffer(buffer){
 	buffer = await crypto.subtle.digest('SHA-256', buffer);
     return bufferToStr(buffer);
+}
+export async function digestHashes(...hashes){
+	let buffers = hashes.map(function(hash){return strToBuffer(hash)});
+	let combined = concatBuffers(...buffers);
+	return await digestBuffer(combined);
+}
+export async function digestFile(file) {
+    let buffer = await file.arrayBuffer();
+	return await digestBuffer(buffer);
 }
 function genKey(){
     return crypto.subtle.generateKey({name:"AES-GCM",length: 256},true,["encrypt","decrypt"]);

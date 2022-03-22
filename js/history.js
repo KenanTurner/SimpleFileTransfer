@@ -1,4 +1,4 @@
-import {upload_history,PREVIEW_URL,DOWNLOAD_URL,DELETE_URL,STATUS_URL} from './common.js';
+import {upload_history,PREVIEW_URL,DOWNLOAD_URL,DELETE_URL,STATUS_URL,FOLDER_PREVIEW_URL,FOLDER_DOWNLOAD_URL,FOLDER_DELETE_URL} from './common.js';
 console.log("LOADED");
 window.upload_history = upload_history;
 
@@ -31,19 +31,19 @@ let rows = upload_history.map(function createTable(obj,i){
 	
 	let preview_cell = tr.insertCell();
 	let preview = createNode("td");
-	let preview_link = createNode("a",{"innerText":"Preview","href":PREVIEW_URL+obj.id,"target":"_blank"});
+	let preview_link = createNode("a",{"innerText":"Preview","href":(obj.files? FOLDER_PREVIEW_URL: PREVIEW_URL)+obj.id,"target":"_blank"});
 	preview.appendChild(preview_link);
 	preview_cell.appendChild(preview);
 	
 	let download_cell = tr.insertCell();
 	let download = createNode("td");
-	let download_link = createNode("a",{"innerText":"Download","href":DOWNLOAD_URL+obj.id,"target":"_blank"});
+	let download_link = createNode("a",{"innerText":"Download","href":(obj.files? FOLDER_DOWNLOAD_URL: DOWNLOAD_URL)+obj.id,"target":"_blank"});
 	download.appendChild(download_link);
 	download_cell.appendChild(download);
 	
 	let delete_cell = tr.insertCell();
 	let del = createNode("td");
-	let del_link = createNode("a",{"innerText":"Delete","href":DELETE_URL+obj.id,"target":"_blank"});
+	let del_link = createNode("a",{"innerText":"Delete","href":(obj.files? FOLDER_DELETE_URL: DELETE_URL)+obj.id,"target":"_blank"});
 	del_link.addEventListener('click',function(){
 		let j = upload_history.length;
 		while(j--){

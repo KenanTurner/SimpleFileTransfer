@@ -4,6 +4,9 @@ export const DOWNLOAD_URL = "./php/file.php?method=download&id=";
 export const METADATA_URL = "./php/file.php?method=metadata&id=";
 export const PREVIEW_URL = "./php/file.php?method=preview&id=";
 export const DELETE_URL = "./php/file.php?method=delete&id=";
+export const FOLDER_DOWNLOAD_URL = "./php/folder.php?method=download&id=";
+export const FOLDER_PREVIEW_URL = "./php/folder.php?method=preview&id=";
+export const FOLDER_DELETE_URL = "./php/folder.php?method=delete&id=";
 export const STATUS_URL = "./php/file.php?method=status&id=";
 /*console.assert(saveAs,"FileSaver saveAs failed to import!"); //Check if FileSaver is loaded
 console.assert(JSZip,"JSZip failed to import!"); //Check if JSZip is loaded*/
@@ -23,12 +26,12 @@ export function fetchFile(id){
 	return fetchRequest(DOWNLOAD_URL + id,'blob');
 }
 
-export async function uploadFile(obj){
+export async function uploadFile(obj,id){
 	let form_data = new FormData();
 	for(let o in obj){
 		form_data.append(o, obj[o]);
 	}
-	let response = await fetch(UPLOAD_URL,{
+	let response = await fetch(UPLOAD_URL + "?id=" + id,{
 		method: 'POST',
 		body: form_data
 	})
