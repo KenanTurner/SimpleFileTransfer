@@ -20,6 +20,6 @@
 	echo '<script type="module" src="../js/folder.js"></script>';
 
 	foreach($meta['files'] as $id){
-		echo '<iframe src="/php/file.php?method='.$method.'&id='.$id.'"></iframe>';		
+		echo '<iframe data-src="/php/file.php?method='.$method.'&id='.$id.'"></iframe>';		
 	}
 ?>

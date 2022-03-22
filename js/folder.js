@@ -1,3 +1,5 @@
+import AsyncQueue from './async-queue.js';
+const MAX_CONCURRENT_REQUESTS = 4;
 console.log("Loaded");
 
 window.resize = function(iframe){
@@ -18,7 +20,7 @@ window.resize = function(iframe){
 	content.style.overflow = "hidden";
 }
 
-const iframes = document.querySelectorAll("iframe");
+window.iframes = Array.from(document.querySelectorAll("iframe"));
 iframes.forEach(function(iframe){
 	iframe.addEventListener('load',function(){
 		let content = iframe.contentDocument.documentElement;
@@ -34,4 +36,18 @@ window.addEventListener('resize', function(event){
     iframes.forEach(function(frame){
 		resize(frame);
 	});
+});
+
+async function load(iframe){
+	let p = new Promise(function(res,rej){
+		iframe.addEventListener('load',res,{once:true});
+		iframe.addEventListener('error',rej,{once:true});
+	});
+	iframe.src = iframe.dataset.src;
+	return p;
+}
+
+let queue = new AsyncQueue(MAX_CONCURRENT_REQUESTS);
+let parr = iframes.map(function(iframe){
+	return queue.enqueue(load,iframe);
 });
