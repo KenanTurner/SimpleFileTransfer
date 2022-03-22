@@ -28,6 +28,7 @@ iframes.forEach(function(iframe){
 		iframe._height = content.scrollHeight; //keep original height
 		iframe.style.width = "100%";
 		iframe.style.height = "100%";
+		iframe.style.visibility = "visible";
 		resize(iframe);
 	});
 });

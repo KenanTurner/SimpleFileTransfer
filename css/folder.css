@@ -7,4 +7,5 @@ iframe {
 	border: none;
 	overflow: hidden;
 	box-sizing: border-box;
+	visibility: hidden;
 }
